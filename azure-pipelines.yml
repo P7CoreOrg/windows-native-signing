@@ -23,7 +23,8 @@ steps:
       includePreviewVersions: false
 
   - powershell: dotnet tool install --global AzureSignTool --version 2.0.17  
-  
+    displayName: Install AzureSignTool
+
   - task: NuGetToolInstaller@1
 
   - task: NuGetCommand@2
@@ -41,5 +42,7 @@ steps:
       platform: '$(buildPlatform)'
       configuration: '$(buildConfiguration)'
 
-  - powershell: ls | 
-      ./build.ps1 -clientId $(AZURE_CLIENT_ID) -clientSecret $(AZURE_CLIENT_SECRET)
+  - powershell: ls 
+    displayName: Where Am I
+
+  - powershell: ./windows-native-signing/build.ps1 -clientId $(AZURE_CLIENT_ID) -clientSecret $(AZURE_CLIENT_SECRET)
