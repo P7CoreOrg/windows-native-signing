@@ -41,3 +41,4 @@ steps:
       platform: '$(buildPlatform)'
       configuration: '$(buildConfiguration)'
 
+  - powershell: ./build.ps1 -clientId $(AZURE_CLIENT_ID) -clientSecret $(AZURE_CLIENT_SECRET)
