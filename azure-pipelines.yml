@@ -14,23 +14,16 @@ variables:
   buildPlatform: 'x64'
   buildConfiguration: 'Release'
 
-jobs:
-- job: Prep
-  steps:
+
+steps:
   - task: UseDotNet@2
     displayName: 'Use dotnet sdk 3.x'
     inputs:
       version: 3.x
       includePreviewVersions: false
 
-- job: tools
-  steps:
   - powershell: dotnet tool install --global AzureSignTool --version 2.0.17  
-
-
-- job: build
-  steps:
-
+  
   - task: NuGetToolInstaller@1
 
   - task: NuGetCommand@2
