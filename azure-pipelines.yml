@@ -51,6 +51,4 @@ steps:
   - powershell: ls 
     displayName: Where Am I
 
-  - powershell: |
-      cd ./windows-native-signing |
-      ./build.ps1 -clientId $(AZURE_CLIENT_ID) -clientSecret $(AZURE_CLIENT_SECRET)
+  - powershell: ./windows-native-signing/build.ps1 -clientId $(AZURE_CLIENT_ID) -clientSecret $(AZURE_CLIENT_SECRET)
