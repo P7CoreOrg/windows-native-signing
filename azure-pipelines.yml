@@ -53,16 +53,17 @@ steps:
 
   - powershell: ./windows-native-signing/sign.ps1 -clientId $(AZURE_CLIENT_ID) -clientSecret $(AZURE_CLIENT_SECRET)
 
-  - powershell: |
-      write-host Build.ArtifactStagingDirectory:$(Build.ArtifactStagingDirectory) |
-      write-host System.DefaultWorkingDirectory:$(System.DefaultWorkingDirectory)
+  - powershell: write-host Build.ArtifactStagingDirectory:$(Build.ArtifactStagingDirectory)
     displayName: Artifact Locations
+  - powershell: write-host System.DefaultWorkingDirectory:$(System.DefaultWorkingDirectory)
+    displayName: Artifact Locations
+
 
   - task: CopyFiles@2
     displayName: 'Copy Signed Files'
     inputs:
-      SourceFolder: '$(System.DefaultWorkingDirectory)/ReactWindows-source'
-      TargetFolder: '$(Build.ArtifactStagingDirectory) '
+      SourceFolder: '$(System.DefaultWorkingDirectory)/windows-native-signing/x64'
+      TargetFolder: '$(Build.ArtifactStagingDirectory)/x64'
   
   
   - task: PublishBuildArtifacts@1
