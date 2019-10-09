@@ -53,10 +53,16 @@ steps:
 
   - powershell: ./windows-native-signing/sign.ps1 -clientId $(AZURE_CLIENT_ID) -clientSecret $(AZURE_CLIENT_SECRET)
 
-  - powershell: write-host '$(Build.ArtifactStagingDirectory)'
+  - powershell: write-host Build.ArtifactStagingDirectory:$(Build.ArtifactStagingDirectory)
+    displayName: Artifact Locations
+  - task: CopyFiles@2
+    inputs:
+      contents: './windows-native-signing/x64/**'
+      targetFolder: $(Build.ArtifactStagingDirectory)  
+  
   - task: PublishBuildArtifacts@1
     inputs:
-      pathtoPublish: ./windows-native-signing/x64 
+      pathtoPublish: '$(Build.ArtifactStagingDirectory)'
       artifactName: 'drop' 
     #publishLocation: 'Container' # Options: container, filePath
     #targetPath: # Required when publishLocation == FilePath
