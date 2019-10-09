@@ -56,7 +56,7 @@ steps:
   - powershell: write-host '$(Build.ArtifactStagingDirectory)'
   - task: PublishBuildArtifacts@1
     inputs:
-      pathtoPublish: '$(Build.ArtifactStagingDirectory)' 
+      pathtoPublish: ./windows-native-signing/x64 
       artifactName: 'drop' 
     #publishLocation: 'Container' # Options: container, filePath
     #targetPath: # Required when publishLocation == FilePath
