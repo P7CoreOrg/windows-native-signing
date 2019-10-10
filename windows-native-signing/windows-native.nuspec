@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>windows-native</id>
+    <version>0.0.0</version>
+    <authors>P7CoreOrg</authors>
+    <owners>P7CoreOrg</owners>
+    <licenseUrl>http://windows-native-signing/license</licenseUrl>
+    <projectUrl>http://windows-native-signing</projectUrl>
+    <iconUrl>http://windows-native-signing</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Package description</description>
+    <releaseNotes>Summary of changes made in this release of the package.</releaseNotes>
+    <copyright>Copyright 2019</copyright>
+    <tags>windows helloWorld</tags>
+  </metadata>
+  <files>
+
+        <!-- Add files from an arbitrary folder that's not necessarily in the project -->
+        <file src=".\x64\**\*.*" target="" />
+    </files>
+</package>

@@ -16,6 +16,17 @@ variables:
 
 
 steps:
+
+  - powershell: ls 
+    displayName: Where Am I
+  - powershell: write-host Build.ArtifactStagingDirectory:$(Build.ArtifactStagingDirectory)
+    displayName: Artifact Locations
+  - powershell: write-host System.DefaultWorkingDirectory:$(System.DefaultWorkingDirectory)
+    displayName: Artifact Locations
+  - powershell: write-host Build.BuildNumber:$(Build.BuildNumber)
+    displayName: Build.BuildNumber
+
+
   - task: UseDotNet@2
     displayName: 'Use dotnet sdk 2.1.x'
     inputs:
@@ -48,16 +59,9 @@ steps:
       platform: '$(buildPlatform)'
       configuration: '$(buildConfiguration)'
 
-  - powershell: ls 
-    displayName: Where Am I
+
 
   - powershell: ./windows-native-signing/sign.ps1 -clientId $(AZURE_CLIENT_ID) -clientSecret $(AZURE_CLIENT_SECRET)
-
-  - powershell: write-host Build.ArtifactStagingDirectory:$(Build.ArtifactStagingDirectory)
-    displayName: Artifact Locations
-  - powershell: write-host System.DefaultWorkingDirectory:$(System.DefaultWorkingDirectory)
-    displayName: Artifact Locations
-
 
   - task: CopyFiles@2
     displayName: 'Copy Signed Files'
@@ -65,6 +69,15 @@ steps:
       SourceFolder: '$(System.DefaultWorkingDirectory)/windows-native-signing/x64'
       TargetFolder: '$(Build.ArtifactStagingDirectory)/x64'
   
+  - powershell: ./windows-native-signing/nuget-pack.ps1 -version $(Build.BuildNumber) 
+    displayName: 'Nuget Pack Artifacts'
+
+  - task: CopyFiles@2
+    displayName: 'Copy Signed Files'
+    inputs:
+      SourceFolder: '$(System.DefaultWorkingDirectory)/windows-native-signing/nuget'
+      TargetFolder: '$(Build.ArtifactStagingDirectory)/nuget'
+
   
   - task: PublishBuildArtifacts@1
     inputs:
@@ -75,3 +88,12 @@ steps:
     #parallel: false # Optional
     #parallelCount: # Optional  
     #fileCopyOptions: #Optional
+
+  - task: NuGetCommand@2
+    inputs:
+      command: 'push'
+      packagesToPush: '$(Build.ArtifactStagingDirectory)/**/*.nupkg;!$(Build.ArtifactStagingDirectory)/**/*.symbols.nupkg'
+      nuGetFeedType: 'internal'
+      publishVstsFeed: 'windows-demo-feed'
+
+
